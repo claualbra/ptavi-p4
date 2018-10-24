@@ -8,15 +8,13 @@ import socket
 import sys
 
 # Constantes. Dirección IP del servidor y contenido a enviar
-SERVER = 'localhost'
+SERVER = sys.argv[1]
 PORT = int(sys.argv[2]) #mas de 1024
 LINE = ' '.join(sys.argv[3:])
-IP = sys.argv[1]
 
 # Creamos el socket, lo configuramos y lo atamos a un servidor/puerto
 # (socket internet,tipo de socket udp) como llamamos a socket
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as my_socket:
-    print(PORT)
     my_socket.connect((SERVER, PORT))
     print("Enviando:", LINE)
     my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
