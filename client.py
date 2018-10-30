@@ -19,8 +19,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as my_socket:
     my_socket.connect((SERVER, PORT))
     print("Enviando:", PETICION.upper() + ' sip:'+ ADRESSS + ' SIP/2.0')
     print("Expires: " + EXPIRES)
-    my_socket.send(bytes(PETICION.upper() + ' sip:'+ ADRESSS + ' SIP/2.0',
-                        'utf-8') + b'\r\n' + bytes(EXPIRES, 'utf-8') + b'\r\n')
+    my_socket.send(bytes(PETICION.upper() + ' sip:'+ ADRESSS + ' SIP/2.0\r\n '
+                        + EXPIRES, 'utf-8') + b'\r\n\r\n')
     data = my_socket.recv(1024)
     print('Recibido -- ', data.decode('utf-8'))
 
