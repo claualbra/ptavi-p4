@@ -51,14 +51,15 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 # Timpo actual mas expiracion
                 Time = time.time() + int(expires)
                 TimeExp = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(Time))
-                if int(expires) != 0:
-                    self.dicc[user] = {'address': IP, 'expires': TimeExp}
-                elif int(expires) == 0:
-                    # Si el tiempo de expiracion es o se borra el diccionario
-                    try:
-                        del self.dicc[user]
-                    except KeyError:
-                        pass
+                now = time.strftime('%Y-%m-%d %H:%M:%S',
+                                    time.gmtime(time.time()))
+                self.dicc[user] = {'address': IP, 'expires': TimeExp}
+                user_del = []
+                for user in self.dicc:
+                    if now >= self.dicc[user]['expires']:
+                        user_del.append(user)
+                for user in user_del:
+                    del self.dicc[user]
                 self.register2json()
                 print(self.dicc)
 
