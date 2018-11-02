@@ -16,6 +16,13 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     """
     dicc = {}
 
+    def json2register(self):
+        try:
+            with open('registered.json', 'r') as jsonfile:
+                self.dicc = json.load(jsonfile)
+        except FileNotFoundError:
+            pass
+
     def register2json(self):
         """
         Escribir diccionario en formato json en el fichero registered.json
@@ -29,7 +36,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         handle method of the server class
         (all requests will be handled by this method)
         """
-        print(str(self.client_address))
+        self.json2register()
         self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
         linea = ''
         for line in self.rfile:
